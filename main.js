@@ -19,11 +19,14 @@ let app = http.createServer(function(request,response){
       console.log(title);
       fs.readdir('data/', 'utf8', function(err, filelist){
         console.log(filelist);
+        /*
         let list = '';
         let i = 0;
         while(i < filelist.length){
           list = list + `<li><a href="${filelist[i]}.html">${filelist[i]}</a></li>`
         }
+        메모리 누수 의심 위치
+        */
         console.log(list)
         let template = `
         <!doctype html>
