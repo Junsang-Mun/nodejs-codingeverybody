@@ -4,6 +4,7 @@ const url = require('url');
 
 let title;
 let description;
+let list = '';
 
 let app = http.createServer(function(request,response){
     let _url = request.url;
@@ -19,6 +20,15 @@ let app = http.createServer(function(request,response){
       console.log(title);
       fs.readdir('data/', 'utf8', function(err, filelist){
         console.log(filelist);
+
+        let i = 0;
+        while(i < filelist.length){
+          hey = filelist[i].toLowerCase();
+          list = list + `<li><a href="/?id=${hey}">${filelist[i]}</a></li>`
+          i++;
+          console.log(i);
+        }
+
         /*
         let list = '';
         let i = 0;
@@ -27,7 +37,6 @@ let app = http.createServer(function(request,response){
         }
         메모리 누수 의심 위치
         */
-        console.log(list)
         let template = `
         <!doctype html>
         <html>
