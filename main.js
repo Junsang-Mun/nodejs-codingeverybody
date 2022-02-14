@@ -23,11 +23,10 @@ let app = http.createServer(function(request,response){
 
         let i = 0;
         while(i < filelist.length){
-          hey = filelist[i].toLowerCase();
           list = list + `<li><a href="/?id=${hey}">${filelist[i]}</a></li>`
           i++;
           console.log(i);
-        }
+        } //TODO: 무한생성 이슈 fix
 
         /*
         let list = '';
