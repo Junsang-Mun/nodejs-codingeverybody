@@ -1,6 +1,6 @@
-let http = require('http');
-let fs = require('fs');
-let url = require('url');
+const http = require('http');
+const fs = require('fs');
+const url = require('url');
 
 let title;
 let description;
@@ -17,11 +17,14 @@ let app = http.createServer(function(request,response){
         description = 'hello there!';
       }
       console.log(title);
-      fs.readFile(`data/${title}`, 'utf8', function(err, data){
-        console.log(data);
-        if(data !== undefined){
-          description = data;
-        } else {}
+      fs.readdir('data/', 'utf8', function(err, filelist){
+        console.log(filelist);
+        let list = '';
+        let i = 0;
+        while(i < filelist.length){
+          list = list + `<li><a href="${filelist[i]}.html">${filelist[i]}</a></li>`
+        }
+        console.log(list)
         let template = `
         <!doctype html>
         <html>
@@ -32,9 +35,7 @@ let app = http.createServer(function(request,response){
         <body>
           <h1><a href="index.html">WEB</a></h1>
           <ol>
-            <li><a href="/?id=html">HTML</a></li>
-            <li><a href="/?id=css">CSS</a></li>
-            <li><a href="/?id=javascript">JavaScript</a></li>
+            ${list}
           </ol>
           <h2>${title}</h2>
           <p>${description}
