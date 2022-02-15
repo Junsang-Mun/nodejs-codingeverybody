@@ -16,14 +16,14 @@ let app = http.createServer(function(request,response){
       if(querydata.id === undefined){
         title = 'Hello';
         description = 'hello there!';
-      }
-      console.log(title);
-      fs.readdir('data/', 'utf8', function(err, filelist){
+
+        console.log(title);
+        fs.readdir('data/', 'utf8', function(err, filelist){
         console.log(filelist);
 
         let i = 0;
         while(i < filelist.length){
-          list = list + `<li><a href="/?id=${hey}">${filelist[i]}</a></li>`
+          list = list + `<li><a href="/?id=${filelist[i]}">${filelist[i]}</a></li>`
           i++;
           console.log(i);
         } //TODO: 무한생성 이슈 fix
@@ -57,6 +57,8 @@ let app = http.createServer(function(request,response){
           response.writeHead(200);
           response.end(template);
       });
+      }
+      
     } else {
       response.writeHead(404);
       response.end('Not found');
