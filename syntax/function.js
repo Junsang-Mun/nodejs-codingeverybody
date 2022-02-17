@@ -1,18 +1,14 @@
-f123(true);
-console.log('A');
-console.log('B');
-f123();
-f123(false);
+console.log(f123(true));
+console.log(f123(false));
+console.log(f123());
 
 
 function f123(goornot){
-    console.log(1);
-    console.log(2);
     if(goornot === true){
-        console.log('Hell yeah!');
+        return 'go';
     } else if(goornot === false){
-        console.log('Heaven yell...');
+        return 'stop';
     } else{
-        console.log('Null Null')
+        return 'mol?ru';
     }
 }
