@@ -13,6 +13,7 @@ function templateHTML(title, list, body){
   <body>
     <h1><a href="/">WEB</a></h1>
       ${list}
+      <li><a href="/create">create</a></li>
       ${body}
     </body>
     </html>
@@ -56,6 +57,11 @@ let app = http.createServer(function(request,response){
           });
         });
       }
+    } else {
+    response.writeHead(404);
+    response.end('404 Not Found');
     }
-  });
+  } 
+  
+  );
 app.listen(3000);
