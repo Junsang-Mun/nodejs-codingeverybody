@@ -57,6 +57,25 @@ let app = http.createServer(function(request,response){
           });
         });
       }
+    } else if(pathname === '/create'){
+      let template;
+      fs.readdir('./data', function(error, filelist){
+          const title = 'WEB - create';
+          const list = templateList(filelist);
+          template = templateHTML(title, list, `
+            <form action="http://localhost:3000/process_create" method="post">
+              <p><input type="text" name="title" placeholder="title"></p>
+              <p>
+                <textarea name="description" placeholder="description"></textarea>
+              </p>
+              <p>
+                <input type="submit">
+              </p>
+            </form>
+          `);
+        response.writeHead(200);
+        response.end(template)
+      });
     } else {
     response.writeHead(404);
     response.end('404 Not Found');
