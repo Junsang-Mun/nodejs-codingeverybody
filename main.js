@@ -1,7 +1,6 @@
 const http = require('http');
 const fs = require('fs');
 const url = require('url');
-const qs = require('querystring');
 
 function templateHTML(title, list, body){
   return `
@@ -78,17 +77,17 @@ let app = http.createServer(function(request,response){
         response.end(template)
       });
     } else if(pathname === '/create_process'){
-      var body = '';
+      let title;
+      let body = '';
       request.on('data', function(data){
           body = body + data;
       });
-      request.on('end', function(){
-          var post = qs.parse(body);
-          var title = post.title;
-          var description = post.description
+      request.on('end', function(){ // 이쪽에서 뭔가 잘못된 모양이다
+          let post = new URLSearchParams(body);
+          title = post.body;
       });
       response.writeHead(200);
-      response.end('success');
+      response.end(title);
     } else {
     response.writeHead(404);
     response.end('404 Not Found');
