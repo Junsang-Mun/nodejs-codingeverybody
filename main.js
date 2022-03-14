@@ -63,7 +63,7 @@ let app = http.createServer(function(request,response){
           const title = 'WEB - create';
           const list = templateList(filelist);
           template = templateHTML(title, list, `
-            <form action="http://localhost:3000/process_create" method="post">
+            <form action="/create_process" method="post">
               <p><input type="text" name="title" placeholder="title"></p>
               <p>
                 <textarea name="description" placeholder="description"></textarea>
@@ -82,7 +82,7 @@ let app = http.createServer(function(request,response){
       request.on('data', function(data){
           body = body + data;
       });
-      request.on('end', function(){ // 이쪽에서 뭔가 잘못된 모양이다
+      request.on('end', function(){ 
           let post = new URLSearchParams(body);
           title = post.body;
       });
@@ -90,7 +90,7 @@ let app = http.createServer(function(request,response){
       response.end(title);
     } else {
     response.writeHead(404);
-    response.end('404 Not Found');
+    response.end('out');
     }
   } 
   
