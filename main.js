@@ -80,16 +80,16 @@ let app = http.createServer(function(request,response){
       let title;
       let body = '';
       request.on('data', function(data){
-          body = body + data;
+          body = body + data; // data는 조각으로 들어온다: https://dydals5678.tistory.com/98
       });
       request.on('end', function(){ 
         title = new URLSearchParams(body).get('title');
         description = new URLSearchParams(body).get('description');
-        console.log(title);
-        console.log(description);
+        fs.writeFile(`data/${title}`, description, 'utf-8', function(err){
+          response.writeHead(200);
+          response.end('save success');
+        });
       });
-      response.writeHead(200);
-      response.end('success');
     } else {
     response.writeHead(404);
     response.end('out');
