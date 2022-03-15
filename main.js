@@ -86,8 +86,8 @@ let app = http.createServer(function(request,response){
         title = new URLSearchParams(body).get('title');
         description = new URLSearchParams(body).get('description');
         fs.writeFile(`data/${title}`, description, 'utf-8', function(err){
-          response.writeHead(200);
-          response.end('save success');
+          response.writeHead(302, {Location: '/?id='+title});
+          response.end();
         });
       });
     } else {
