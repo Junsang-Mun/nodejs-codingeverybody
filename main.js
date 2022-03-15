@@ -83,11 +83,13 @@ let app = http.createServer(function(request,response){
           body = body + data;
       });
       request.on('end', function(){ 
-          let post = new URLSearchParams(body);
-          title = post.body;
+        title = new URLSearchParams(body).get('title');
+        description = new URLSearchParams(body).get('description');
+        console.log(title);
+        console.log(description);
       });
       response.writeHead(200);
-      response.end(title);
+      response.end('success');
     } else {
     response.writeHead(404);
     response.end('out');
