@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const url = require('url');
 
-function templateHTML(title, list, body){
+function templateHTML(title, list, body, control){
   return `
   <!doctype html>
   <html>
@@ -13,7 +13,7 @@ function templateHTML(title, list, body){
   <body>
     <h1><a href="/">WEB</a></h1>
       ${list}
-      <li><a href="/create">create</a></li>
+      ${control}
       ${body}
     </body>
     </html>
@@ -33,7 +33,7 @@ function templateList(filelist){
 
 let app = http.createServer(function(request,response){
     let _url = request.url;
-    let querydata = url.parse(_url, true).query;
+    let querydata = url.parse(_url, true).query; 
     let pathname = url.parse(_url, true).pathname;
     
     if(pathname === '/') {
@@ -42,7 +42,7 @@ let app = http.createServer(function(request,response){
           const title = 'Welcome';
           const description = 'Hello Node.js';
           const list = templateList(filelist);
-          const template = templateHTML(title, list, `<h2>${title}</h2>${description}`);
+          const template = templateHTML(title, list, `<h2>${title}</h2><p>${description}</p>`, `<a href="/create">create</a>`);
           response.writeHead(200);
           response.end(template);
         });
@@ -51,7 +51,7 @@ let app = http.createServer(function(request,response){
           fs.readFile(`data/${querydata.id}`, 'utf8', function(error, description){
             const title = querydata.id;
             const list = templateList(filelist);
-            const template = templateHTML(title, list, `<h2>${title}</h2>${description}`);
+            const template = templateHTML(title, list, `<h2>${title}</h2><p>${description}</p>`, `<a href="/create">create</a> <a href="/update">update</a>`);
             response.writeHead(200);
             response.end(template);
           });
@@ -74,7 +74,7 @@ let app = http.createServer(function(request,response){
             </form>
           `);
         response.writeHead(200);
-        response.end(template)
+        response.end(template);
       });
     } else if(pathname === '/create_process'){
       let title;
@@ -92,7 +92,7 @@ let app = http.createServer(function(request,response){
       });
     } else {
     response.writeHead(404);
-    response.end('out');
+    response.end('404 NOT FOUND');
     }
   } 
   
