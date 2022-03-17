@@ -90,6 +90,25 @@ let app = http.createServer(function(request,response){
           response.end();
         });
       });
+    } else if(pathname === '/update'){
+      let template;
+      fs.readFile(`data/${querydata.id}`, 'utf8', function(error, description){
+          const title = 'WEB - update article';
+          const list = templateList(filelist);
+          template = templateHTML(title, list, `
+            <form action="/create_process" method="post">
+              <p><input type="text" name="title" placeholder="title" value="${title}"></p>
+              <p>
+                <textarea name="description" placeholder="description" value="${description}"></textarea>
+              </p>
+              <p>
+                <input type="submit">
+              </p>
+            </form>
+          `);
+        response.writeHead(200);
+        response.end(template);
+      });
     } else {
     response.writeHead(404);
     response.end('404 NOT FOUND');
