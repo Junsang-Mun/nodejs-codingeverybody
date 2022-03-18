@@ -99,9 +99,10 @@ let app = http.createServer(function(request,response){
           const list = templateList(filelist);
           const template = templateHTML(title, list,
             `
-            <form action="/update_process" method="post">
+            <form action="/create_process" method="post">
               <input type="hidden" name="id" value="${title}">
-              <p><input type="text" name="title" placeholder="title" value="${title}"></p>
+              <input type="hidden" name="title" value="${title}">
+              <h3>${title}</h3>
               <p>
                 <textarea name="description" placeholder="description">${description}</textarea>
               </p>
@@ -116,8 +117,6 @@ let app = http.createServer(function(request,response){
           response.end(template);
         });
       });
-    } else if (pathname === '/update_process'){
-
     } else {
     response.writeHead(404);
     response.end('404 NOT FOUND');
