@@ -51,7 +51,7 @@ let app = http.createServer(function(request,response){
           fs.readFile(`data/${querydata.id}`, 'utf8', function(error, description){
             const title = querydata.id;
             const list = templateList(filelist);
-            const template = templateHTML(title, list, `<h2>${title}</h2><p>${description}</p>`, `<a href="/create">create</a> <a href="/update">update</a>`);
+            const template = templateHTML(title, list, `<h2>${title}</h2><p>${description}</p>`, `<a href="/create">create</a> <a href="/update?id=${title}">update</a>`);
             response.writeHead(200);
             response.end(template);
           });
@@ -72,7 +72,9 @@ let app = http.createServer(function(request,response){
                 <input type="submit">
               </p>
             </form>
-          `);
+          `,
+          `<a href="/create">create</a> <a href="/update?id=${title}">update</a>`
+          );
         response.writeHead(200);
         response.end(template);
       });
@@ -91,24 +93,31 @@ let app = http.createServer(function(request,response){
         });
       });
     } else if(pathname === '/update'){
-      let template;
-      fs.readFile(`data/${querydata.id}`, 'utf8', function(error, description){
-          const title = 'WEB - update article';
+      fs.readdir('./data', function(error, filelist){
+        fs.readFile(`data/${querydata.id}`, 'utf8', function(err, description){
+          const title = querydata.id;
           const list = templateList(filelist);
-          template = templateHTML(title, list, `
-            <form action="/create_process" method="post">
+          const template = templateHTML(title, list,
+            `
+            <form action="/update_process" method="post">
+              <input type="hidden" name="id" value="${title}">
               <p><input type="text" name="title" placeholder="title" value="${title}"></p>
               <p>
-                <textarea name="description" placeholder="description" value="${description}"></textarea>
+                <textarea name="description" placeholder="description">${description}</textarea>
               </p>
               <p>
-                <input type="submit">
+                <input type="submit" value="확인">
               </p>
             </form>
-          `);
-        response.writeHead(200);
-        response.end(template);
+            `,
+            `<a href="/create">create</a> <a href="/update?id=${title}">update</a>`
+          );
+          response.writeHead(200);
+          response.end(template);
+        });
       });
+    } else if (pathname === '/update_process'){
+
     } else {
     response.writeHead(404);
     response.end('404 NOT FOUND');
